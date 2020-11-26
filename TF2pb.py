@@ -1,21 +1,17 @@
 #*-coding:utf-8-*
 
-"""
-将keras的.h5的模型文件，转换成TensorFlow的pb文件
-"""
-# ==========================================================
-
 from keras.models import load_model
+from keras import backend
 import tensorflow as tf
 import os
-from keras import backend
 
 
-def h5_to_pb(h5_model, output_dir, model_name, out_prefix="output_"):
+
+def tf_to_pb(tf_model, output_dir, model_name, out_prefix="output_"):
     """.h5模型文件转换成pb模型文件
     Argument:
-        h5_model: str
-            .h5模型文件
+        tf_model: 
+            已加载的模型
         output_dir: str
             pb模型文件保存路径
         model_name: str
@@ -28,9 +24,9 @@ def h5_to_pb(h5_model, output_dir, model_name, out_prefix="output_"):
     if os.path.exists(output_dir) == False:
         os.mkdir(output_dir)
     out_nodes = []
-    for i in range(len(h5_model.outputs)):
+    for i in range(len(tf_model.outputs)):
         out_nodes.append(out_prefix + str(i + 1))
-        tf.identity(h5_model.output[i], out_prefix + str(i + 1))
+        tf.identity(tf_model.output[i], out_prefix + str(i + 1))
     sess = backend.get_session()
 
     from tensorflow.python.framework import graph_util, graph_io
@@ -48,5 +44,5 @@ if __name__ == '__main__':
     keras_weights_file = './weights/model_simulated_RGB_mgpu_scaling_append.0071.h5'
     model = get_testing_model_resnet101()
     model.load_weights(keras_weights_file)
-    h5_to_pb(model, output_dir="mymodel", model_name="p2.pb")
+    tf_to_pb(model, output_dir="mymodel", model_name="p2.pb")
     print('Finished')
