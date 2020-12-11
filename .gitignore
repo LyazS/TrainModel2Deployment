@@ -5,7 +5,7 @@ __pycache__/
 *.pb
 # C extensions
 *.so
-
+.vscode
 # Distribution / packaging
 .Python
 build/

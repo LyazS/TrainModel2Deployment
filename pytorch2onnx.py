@@ -9,7 +9,14 @@
 # only set that subset of names, starting from the beginning.
 import torch
 dummy_input = torch.randn(1, 3, 256, 256, device='cpu')
-input_names = [ "input_0" ]
-output_names = [ "output_0" ]
-model=None # here is your model
-torch.onnx.export(model, dummy_input, "net.onnx", verbose=True, input_names=input_names, output_names=output_names)
+input_names = ["input_0"]
+output_names = ["output_0"]
+model = None  # here is your model
+torch.onnx.export(
+    model,
+    dummy_input,
+    "net.onnx",
+    verbose=True,
+    input_names=input_names,
+    output_names=output_names,
+)
